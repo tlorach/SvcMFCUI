@@ -40,7 +40,7 @@ Instead, this UI will look more like a bunch of containers that can have other c
 
 Here is an example : 
 
-![UI example](./README_pics/example1.jpg)
+![UI example](http://github.com/tlorach/repository/raw/master/README_pics/example1.jpg)
 
 ## comment about the Quality of the code
 
