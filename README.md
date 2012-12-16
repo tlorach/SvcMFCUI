@@ -40,7 +40,7 @@ Instead, this UI will look more like a bunch of containers that can have other c
 
 Here is an example : 
 
-![UI example](http://github.com/tlorach/repository/raw/master/README_pics/example1.jpg)
+![UI example]https://github.com/tlorach/SvcMFCUI/raw/master/README_pics/example1.PNG)
 
 ## comment about the Quality of the code
 
