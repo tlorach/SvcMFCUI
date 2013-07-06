@@ -38,6 +38,8 @@ I hope this could help some other developers, too.
 The User interface generated here might not be good enough for those who want to create a serious and good looking application. This was not the intent.
 Instead, this UI will look more like a bunch of containers that can have other containers and various controls to inspect values, flags, provide buttons...
 
+This kind of UI is largely good enough to add some useful UI while working on various projects. For example, I had to work on a server/client socket system to drive a small graphical demo from a distant server. I found useful to have the console-application server become temporarily visual thanks to this UI, so that I could tweak parameters and take actions for debugging purpose. Then when I had to ship the work, I just needed to remove the UI dll from the project and the server became invisible again !
+
 Here is an example : 
 
 ![UI example](https://github.com/tlorach/SvcMFCUI/raw/master/README_pics/example1.PNG)
@@ -49,3 +51,33 @@ Few comments to legitimate some possible issues in the source code:
 *it is using Windows MFC. I am not good at this and will never be. But At this time I found MFC an "okay" solution for what I wanted to do. But between you and me... this is a rather boring area. So I used it in the best possible way of my knowledge at this time. I am sure that anybody who is more experienced in Windows controls/UI will scream when looking at some parts... I expect it. But at least : this is helping me when I need to get a quick UI.
 
 Hopefully, addin this project on GitHub will be a starter to make it become cleaner...
+
+## Copyright
+
+```
+# Copyright (c) 2012, Tristan Lorach. All rights reserved.
+#
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions
+# are met:
+#  * Redistributions of source code must retain the above copyright
+#    notice, this list of conditions and the following disclaimer.
+#  * Redistributions in binary form must reproduce the above copyright
+#    notice, this list of conditions and the following disclaimer in the
+#    documentation and/or other materials provided with the distribution.
+#  * Neither the name of NVIDIA CORPORATION nor the names of its
+#    contributors may be used to endorse or promote products derived 
+#    from this software without specific prior written permission.
+#
+# THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS ``AS IS'' AND ANY
+# EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+# IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+# PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+# CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+# EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+# PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+# PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY
+# OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+# (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+# OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+```

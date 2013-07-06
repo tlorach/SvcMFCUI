@@ -1,3 +1,8 @@
+
+Release Multithreaded DLL
+x64
+Release64
+
 #################
 ## Eclipse
 #################
@@ -62,6 +67,7 @@ local.properties
 *.vspscc
 .builds
 *.dotCover
+BuildLog.htm
 
 ## TODO: If you have NuGet Package Restore enabled, uncomment this
 #packages/

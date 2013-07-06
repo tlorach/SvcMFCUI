@@ -554,8 +554,9 @@ bool WindowHandler::Destroy(LPCSTR szID)
 	iW = m_pWindows.find(szID); //using SmartPtr !
 	if(iW == m_pWindows.end())
 		return false;
-	iW->second->Destroy();
+    SmartPtr<IWindow> pWin = iW->second;
 	m_pWindows.erase(iW);
+	pWin->Destroy();
 	return true;
 
 }

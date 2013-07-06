@@ -455,7 +455,7 @@ public:
 		{
 			pP->RemoveItem(pT, false);
 		}
-		//g_WindowHandler.Destroy(GetID());
+		g_WindowHandler.Destroy(GetID());
 		pT->DestroyWindow();
 		//delete pT;
 		pT->Release();

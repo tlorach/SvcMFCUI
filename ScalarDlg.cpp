@@ -211,9 +211,9 @@ IControlScalar* CScalarDlg::SetIntMode(bool bYes)
     }
     int tf = (int)(m_multfact/2.0);
     if(tf == 0) tf = 1;
-	m_slider.SetTicFreq(tf);
+	//m_slider.SetTicFreq(tf);
     m_slider.SetRange((int)(m_multfact*m_min), (int)(m_multfact*m_max), FALSE);
-	UpdateValue(SC_ITF);
+	//UpdateValue(SC_ITF);
 	return this;
 }
 IControlScalar* CScalarDlg::SetValue(float s)
@@ -234,8 +234,8 @@ IControlScalar* CScalarDlg::SetBounds(float min, float max)
     }
     int tf = (int)(m_multfact/2.0);
     if(tf == 0) tf = 1;
-	m_slider.SetTicFreq(tf);
-	UpdateValue(SC_ITF);
+	//m_slider.SetTicFreq(tf);
+	//UpdateValue(SC_ITF);
 	return this;
 }
 IControlScalar* CScalarDlg::SetStep(float s)
@@ -243,7 +243,7 @@ IControlScalar* CScalarDlg::SetStep(float s)
     m_multfact = s;
     int tf = (int)(m_multfact/2.0);
     if(tf == 0) tf = 1;
-	m_slider.SetTicFreq(tf);
+	//m_slider.SetTicFreq(tf);
     m_slider.SetRange((int)(m_multfact*m_min), (int)(m_multfact*m_max), FALSE);
 	return this;
 }
@@ -281,7 +281,8 @@ void CScalarDlg::UpdateValue(UpdateFrom from)
 	}
 	if(from != SC_SLIDER)
 	{
-	  m_slider.SetRange(m_multfact*m_min, m_multfact*m_max, TRUE);
+	  m_slider.SetRange(m_multfact*m_min, m_multfact*m_max, FALSE);
+      //ASSERT(::IsWindow(m_slider.m_hWnd)); ::SendMessage(m_slider.m_hWnd, TBM_SETPOS, FALSE, m_val*m_multfact);
 	  m_slider.SetPos(m_val*m_multfact);
 	}
 	if(from != SC_EDIT)
@@ -409,7 +410,7 @@ BOOL CScalarDlg::OnInitDialog()
 	CDialog::OnInitDialog();
     int tf = (int)(m_multfact/2.0);
     if(tf == 0) tf = 1;
-	m_slider.SetTicFreq(tf);
+	//m_slider.SetTicFreq(tf);
 	UpdateValue(SC_ITF);
 	
 	return TRUE;  // return TRUE unless you set the focus to a control
