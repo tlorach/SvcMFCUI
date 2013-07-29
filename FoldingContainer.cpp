@@ -269,6 +269,10 @@ IWindowContainer* FoldingContainer::SelectItem(int Itemnum)
 {
 	return this;
 }
+IWindowContainer* FoldingContainer::SelectItem(IWindow* pw)
+{
+	return this;
+}
 IWindow* FoldingContainer::GetItemNum(int Itemnum)
 {
 	if(Itemnum >= m_controls.size())

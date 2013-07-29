@@ -251,6 +251,10 @@ IWindowContainer* SimpleContainer::SelectItem(int Itemnum)
 	assert(!"function not implemented, yet");
 	return this;
 }
+IWindowContainer* SimpleContainer::SelectItem(IWindow* pw)
+{
+	return this;
+}
 IWindow* SimpleContainer::GetItemNum(int Itemnum)
 {
 	if(Itemnum >= (int)m_controls.size())

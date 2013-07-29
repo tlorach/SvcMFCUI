@@ -191,7 +191,7 @@ IControlString* CStringDlg::SelectString(int start, int len)
 }
 IControlString* CStringDlg::ClearString(bool bOnlySelected)
 {
-	assert(!"function not implemented, yet");
+	CStringDlg::SetString("", bOnlySelected);
 	return this;
 }
 LPCSTR CStringDlg::ShowFileBrowseButton(LPCSTR filter,int bYes)

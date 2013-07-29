@@ -261,39 +261,41 @@ void CVectorDlg::UpdateValue(UpdateFrom from)
 	  m_plugvector.flush(); //setValue(m_vec,0);
 #endif
 	}
-	for(unsigned int ic = 0; ic < m_pclients.size(); ic++)
-	{
-	  if(m_pclients[ic])
-		  m_pclients[ic]->VectorChanged(this, m_vec, m_vec, m_dim);
-		//TODO VectorChanged args...
-	}
-	for(unsigned int ic = 0; ic < g_WindowHandler.m_pclients.size(); ic++)
-	{
-	  if(g_WindowHandler.m_pclients[ic])
-		  g_WindowHandler.m_pclients[ic]->VectorChanged(this, m_vec, m_vec, m_dim);
-		//TODO VectorChanged args...
-	}
-
-  if(from != FROMEDIT)
-  {
-	m_compx.SetSel(0,-1);
-	  m_compy.SetSel(0,-1);
-	  m_compz.SetSel(0,-1);
-	  m_compw.SetSel(0,-1);
-	  char tmp[40];
-	  sprintf(tmp,"%.2f", m_vec[0]);
-	  m_compx.ReplaceSel(tmp);
-	  m_compx.SetSel(0,-1);
-	  sprintf(tmp,"%.2f", m_vec[1]);
-	  m_compy.ReplaceSel(tmp);
-	  m_compy.SetSel(0,-1);
-	  sprintf(tmp,"%.2f", m_vec[2]);
-	  m_compz.ReplaceSel(tmp);
-	  m_compz.SetSel(0,-1);
-	  sprintf(tmp,"%.2f", m_vec[3]);
-	  m_compw.ReplaceSel(tmp);
-	  m_compw.SetSel(0,-1);
-  }
+    if(from == FROMEDIT)
+    {
+        for(unsigned int ic = 0; ic < m_pclients.size(); ic++)
+        {
+          if(m_pclients[ic])
+              m_pclients[ic]->VectorChanged(this, m_vec, m_vec, m_dim);
+            //TODO VectorChanged args...
+        }
+        for(unsigned int ic = 0; ic < g_WindowHandler.m_pclients.size(); ic++)
+        {
+          if(g_WindowHandler.m_pclients[ic])
+              g_WindowHandler.m_pclients[ic]->VectorChanged(this, m_vec, m_vec, m_dim);
+            //TODO VectorChanged args...
+        }
+    }
+    if(from != FROMEDIT)
+    {
+    m_compx.SetSel(0,-1);
+      m_compy.SetSel(0,-1);
+      m_compz.SetSel(0,-1);
+      m_compw.SetSel(0,-1);
+      char tmp[40];
+      sprintf(tmp,"%.2f", m_vec[0]);
+      m_compx.ReplaceSel(tmp);
+      m_compx.SetSel(0,-1);
+      sprintf(tmp,"%.2f", m_vec[1]);
+      m_compy.ReplaceSel(tmp);
+      m_compy.SetSel(0,-1);
+      sprintf(tmp,"%.2f", m_vec[2]);
+      m_compz.ReplaceSel(tmp);
+      m_compz.SetSel(0,-1);
+      sprintf(tmp,"%.2f", m_vec[3]);
+      m_compw.ReplaceSel(tmp);
+      m_compw.SetSel(0,-1);
+    }
 }
 void CVectorDlg::UpdateControl()
 {

@@ -389,6 +389,10 @@ IWindowContainer* SplitterContainer::SelectItem(int Itemnum)
 	assert(!"function not implemented, yet");
 	return this;
 }
+IWindowContainer* SplitterContainer::SelectItem(IWindow* pw)
+{
+	return this;
+}
 IWindow* SplitterContainer::GetItemNum(int Itemnum)
 {
 	if(Itemnum >= MAXITEMSROW)

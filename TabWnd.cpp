@@ -108,40 +108,39 @@ int CTabWnd::GetNumItems()
  **/
 IWindowContainer* CTabWnd::AddItem(LPCSTR title, IWindow *lpWnd, bool bUpdateComponents)
 {
-	if(!lpWnd) 
-	{
-		return this;
-	}
-	for(unsigned int i=0; i<m_controls.size(); i++)
-	{
-		if(m_controls[i] == lpWnd)
-			return this; // already in here
-	}
-	m_TabCtrl.InsertItem(TCIF_TEXT|TCIF_PARAM,0, title,0, (LPARAM)m_controls.size());
-	CWnd *pwnd = (CWnd *)lpWnd->GetCWnd();
-	PeekMyself();
-	BOOL bRes = pwnd->ModifyStyle(WS_POPUPWINDOW|WS_OVERLAPPEDWINDOW, 
-		WS_CHILDWINDOW|DS_CONTROL,0);
-	CWnd * par = pwnd->SetParent(this);
-	pwnd->ShowWindow(SW_SHOWNOACTIVATE);
-	pwnd->Invalidate();
-	PeekMyself();
-	m_currentWnd = pwnd;
-	pwnd->ShowWindow(SW_SHOWNOACTIVATE);
+    if(!lpWnd) 
+    {
+        return this;
+    }
+    for(unsigned int i=0; i<m_controls.size(); i++)
+    {
+        if(m_controls[i] == lpWnd)
+            return this; // already in here
+    }
+    m_TabCtrl.InsertItem(TCIF_TEXT|TCIF_PARAM,m_controls.size(), title,0, (LPARAM)m_controls.size());
 
-	m_controls.push_back(lpWnd);
+    m_controls.push_back(lpWnd);
+    lpWnd->SetParentContainer(this);
 
-	{
-	RECT r;
-	RECT rc, rc2;
-	m_TabCtrl.GetItemRect(0, &rc);
-	m_TabCtrl.GetClientRect(&rc2);
-	GetClientRect(&r);
-	lpWnd->SetLocation(5,rc.bottom+5);
-	lpWnd->SetSize(rc2.right-5-5, rc2.bottom-rc.bottom-5-5);
-	}
-//	OnSize(0, r.right, r.bottom);
-	return this;
+    CWnd *pwnd = (CWnd *)lpWnd->GetCWnd();
+    BOOL bRes = pwnd->ModifyStyle(WS_POPUPWINDOW|WS_OVERLAPPEDWINDOW, 
+        WS_CHILDWINDOW|DS_CONTROL,0);
+    CWnd * par = pwnd->SetParent(this);
+    pwnd->Invalidate();
+    m_currentWnd = pwnd;
+    pwnd->ShowWindow(SW_SHOWNOACTIVATE);
+
+    {
+    RECT r;
+    RECT rc, rc2;
+    m_TabCtrl.GetItemRect(0, &rc);
+    m_TabCtrl.GetClientRect(&rc2);
+    GetClientRect(&r);
+    lpWnd->SetLocation(5,rc.bottom+5);
+    lpWnd->SetSize(rc2.right-5-5, rc2.bottom-rc.bottom-5-5);
+    }
+    //	OnSize(0, r.right, r.bottom);
+    return this;
 }
 /**
  ** 
@@ -189,42 +188,87 @@ IWindowContainer* CTabWnd::RemoveItem(int Itemnum, IWindow **lpWnd, bool bUpdate
  **/
 IWindowContainer* CTabWnd::SelectItem(int Itemnum)
 {
-	assert(!"function not implemented, yet");
-	return this;
+    BOOL bRes;
+    CWnd *pwnd;
+    if((Itemnum >= (int)m_controls.size())||(m_controls[Itemnum] == NULL)) 
+    {
+        return this;
+    }
+    IWindow *pw = m_controls[Itemnum];
+    m_currentWnd = (CWnd *)pw->GetCWnd();
+    m_currentWnd->ShowWindow(SW_SHOWNOACTIVATE);
+    RECT r;
+    GetClientRect(&r);
+    OnSize(0, r.right, r.bottom);
+    return this;
+}
+IWindowContainer* CTabWnd::SelectItem(IWindow *pw)
+{
+    BOOL bRes;
+    CWnd *pwnd;
+    TCITEM TabCtrlItem;
+    int cnt = m_TabCtrl.GetItemCount();
+
+    for(int Itemnum=0; Itemnum<cnt; Itemnum++)
+    {
+        m_TabCtrl.GetItem(Itemnum, &TabCtrlItem);
+        CWnd *w = (CWnd *)m_controls[TabCtrlItem.lParam]->GetCWnd();
+        w->ShowWindow(0);
+        if(pw == m_controls[TabCtrlItem.lParam])
+        {
+            m_TabCtrl.SetCurSel(TabCtrlItem.lParam);
+            m_currentWnd = (CWnd *)pw->GetCWnd();
+            m_currentWnd->ShowWindow(SW_SHOWNOACTIVATE);
+            RECT r;
+            GetClientRect(&r);
+            OnSize(0, r.right, r.bottom);
+        }
+    }
+    return this;
 }
 IWindow* CTabWnd::GetItemNum(int Itemnum)
 {
-	if(Itemnum >= (int)m_controls.size())
-		return NULL;
-	return m_controls[Itemnum];
+    TCITEM TabCtrlItem;
+    int cnt = m_TabCtrl.GetItemCount();
+    if(Itemnum >= cnt)
+        return NULL;
+    m_TabCtrl.GetItem(Itemnum, &TabCtrlItem);
+    return m_controls[TabCtrlItem.lParam];
 }
 /////////////////////////////////////////////////////////////////////////////
 // CTabWnd message handlers
 
 void CTabWnd::OnSize(UINT nType, int cx, int cy) 
 {
-	CDialog::OnSize(nType, cx, cy);
-	
-	if(m_TabCtrl.m_hWnd)
-	{
-		m_TabCtrl.SetWindowPos(NULL, 0,0,cx,cy,SWP_NOACTIVATE);
-		RECT rc, rc2;
-		TCITEM TabCtrlItem;
-		int cur = m_TabCtrl.GetCurSel();
-		m_TabCtrl.GetItemRect(cur, &rc);
-		m_TabCtrl.GetClientRect(&rc2);
-		if(cur < 0)
-			return;
-		m_TabCtrl.GetItem(cur, &TabCtrlItem);
-		if((TabCtrlItem.lParam < (int)m_controls.size()) && (m_controls.size() > 0)) 
-		{
-			IWindow *pw = m_controls[TabCtrlItem.lParam];
-			CWnd *pcwnd = (CWnd *)pw->GetCWnd();
-			pw->SetLocation(5,rc.bottom+5);
-			pw->SetSize(rc2.right-5-5, rc2.bottom-rc.bottom-5-5);
-			//pcwnd->SetWindowPos(NULL, 5,rc.bottom+5 ,rc2.right-5-5, rc2.bottom-rc.bottom-5-5,SWP_NOACTIVATE);
-		}
-	}
+    CDialog::OnSize(nType, cx, cy);
+    if(m_TabCtrl.m_hWnd)
+    {
+        m_TabCtrl.SetWindowPos(NULL, 0,0,cx,cy,SWP_NOACTIVATE);
+        RECT rc, rc2;
+        TCITEM TabCtrlItem;
+        int cur = m_TabCtrl.GetCurSel();
+        m_TabCtrl.GetItemRect(cur, &rc);
+        m_TabCtrl.GetClientRect(&rc2);
+        for(unsigned int i=0; i<m_controls.size(); i++)
+        {
+            IWindow *pw = m_controls[i];
+            CWnd *pcwnd = (CWnd *)m_controls[i]->GetCWnd();
+            pw->SetLocation(5,rc.bottom+5);
+            pw->SetSize(rc2.right-5-5, rc2.bottom-rc.bottom-5-5);
+            pcwnd->SetWindowPos(NULL, 5,rc.bottom+5 ,rc2.right-5-5, rc2.bottom-rc.bottom-5-5,SWP_NOACTIVATE);
+        }
+        //if(cur < 0)
+        //	return;
+        //m_TabCtrl.GetItem(cur, &TabCtrlItem);
+        //if((TabCtrlItem.lParam < (int)m_controls.size()) && (m_controls.size() > 0)) 
+        //{
+        //	IWindow *pw = m_controls[TabCtrlItem.lParam];
+        //	CWnd *pcwnd = (CWnd *)pw->GetCWnd();
+        //	pw->SetLocation(5,rc.bottom+5);
+        //	pw->SetSize(rc2.right-5-5, rc2.bottom-rc.bottom-5-5);
+        //	//pcwnd->SetWindowPos(NULL, 5,rc.bottom+5 ,rc2.right-5-5, rc2.bottom-rc.bottom-5-5,SWP_NOACTIVATE);
+        //}
+    }
 }
 
 void CTabWnd::OnSelchangeTabctrl(NMHDR* pNMHDR, LRESULT* pResult) 

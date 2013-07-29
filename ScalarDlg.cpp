@@ -249,62 +249,66 @@ IControlScalar* CScalarDlg::SetStep(float s)
 }
 void CScalarDlg::UpdateValue(UpdateFrom from)
 {
-	/*if(m_val < m_min) 
-		m_val = m_min;
-	if(m_val > m_max) 
-		m_val = m_max;*/
-	if(from == SC_EDIT)
-	{
-		GetDlgItemText(m_scalarval.GetDlgCtrlID(), m_tmpstr);
-		m_val = (float)atof(m_tmpstr);
-	}
-	else if(from == SC_BVAR)
-	{
-		GetVariableValue(&m_val, 1);
-	}
-	if(m_intmode)
+    /*if(m_val < m_min) 
+        m_val = m_min;
+    if(m_val > m_max) 
+        m_val = m_max;*/
+    if(from == SC_EDIT)
     {
-		m_val = (float)((int)m_val);
+        GetDlgItemText(m_scalarval.GetDlgCtrlID(), m_tmpstr);
+        m_val = (float)atof(m_tmpstr);
+    }
+    else if(from == SC_BVAR)
+    {
+        GetVariableValue(&m_val, 1);
+    }
+    if(m_intmode)
+    {
+        m_val = (float)((int)m_val);
     }
 
-	if(from != SC_BVAR)
-	{
-		SetVariableValue(&m_val, 1);
-	}
-	if(from != SC_PLUG)
-	{
+    if(from != SC_BVAR)
+    {
+        SetVariableValue(&m_val, 1);
+    }
+    if(from != SC_PLUG)
+    {
 #ifdef USEPLUGS
-	  m_plugval.flush();// setValue(m_val);
-	  m_plugmin.flush();// setValue(m_min);
-	  m_plugmax.flush();// setValue(m_max);
+      m_plugval.flush();// setValue(m_val);
+      m_plugmin.flush();// setValue(m_min);
+      m_plugmax.flush();// setValue(m_max);
 #endif
-	}
-	if(from != SC_SLIDER)
-	{
-	  m_slider.SetRange(m_multfact*m_min, m_multfact*m_max, FALSE);
+    }
+    if(from != SC_SLIDER)
+    {
+      m_slider.SetRange(m_multfact*m_min, m_multfact*m_max, FALSE);
       //ASSERT(::IsWindow(m_slider.m_hWnd)); ::SendMessage(m_slider.m_hWnd, TBM_SETPOS, FALSE, m_val*m_multfact);
-	  m_slider.SetPos(m_val*m_multfact);
-	}
-	if(from != SC_EDIT)
-	{
-	  m_scalarval.SetSel(0,-1);
-	  char tmp[40];
-	  sprintf(tmp,m_intmode ? "%.0f" : "%.4f", m_val);
-	  m_scalarval.ReplaceSel(tmp);
-	  m_scalarval.SetSel(0,-1);
-	}
-	for(unsigned int ic = 0; ic < m_pclients.size(); ic++)
-	{
-	if(m_pclients[ic])
-		  m_pclients[ic]->ScalarChanged(this, m_val, m_val);
-	//TODO: manage the case where the callback changed the value...
-	}
-	for(unsigned int ic = 0; ic < g_WindowHandler.m_pclients.size(); ic++)
-	{
-		if(g_WindowHandler.m_pclients[ic])
-			  g_WindowHandler.m_pclients[ic]->ScalarChanged(this, m_val, m_val);
-		//TODO: manage the case where the callback changed the value...
-	}
+      m_slider.SetPos(m_val*m_multfact);
+    }
+    if(from != SC_EDIT)
+    {
+      m_scalarval.SetSel(0,-1);
+      char tmp[40];
+      sprintf(tmp,m_intmode ? "%.0f" : "%.4f", m_val);
+      m_scalarval.ReplaceSel(tmp);
+      m_scalarval.SetSel(0,-1);
+    }
+    // invoke callbacks only if the changes came from user interface
+    if((from == SC_SLIDER)||(from == SC_EDIT))
+    {
+        for(unsigned int ic = 0; ic < m_pclients.size(); ic++)
+        {
+        if(m_pclients[ic])
+              m_pclients[ic]->ScalarChanged(this, m_val, m_val);
+        //TODO: manage the case where the callback changed the value...
+        }
+        for(unsigned int ic = 0; ic < g_WindowHandler.m_pclients.size(); ic++)
+        {
+            if(g_WindowHandler.m_pclients[ic])
+                  g_WindowHandler.m_pclients[ic]->ScalarChanged(this, m_val, m_val);
+            //TODO: manage the case where the callback changed the value...
+        }
+    }
 }
 
 void CScalarDlg::UpdateControl()

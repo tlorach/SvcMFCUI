@@ -134,6 +134,7 @@ public:
 	virtual IWindowContainer* RemoveItem(int Itemnum, IWindow **lpWnd=NULL, bool bUpdateComponents=false); 
 	virtual IWindowContainer* RemoveItem(IWindow *lpWnd, bool bUpdateComponents);
 	virtual IWindowContainer* SelectItem(int Itemnum);
+    virtual IWindowContainer* SelectItem(IWindow *pw);
 	virtual IWindow*		  GetItemNum(int Itemnum);
 	virtual bool UnFold(bool bYes);
 	virtual bool isUnFolded();

@@ -331,6 +331,7 @@ public:
     virtual IWindowContainer* RemoveItem(IWindow *lpWnd, bool bUpdateComponents=false) = 0;
     virtual IWindow*          GetItemNum(int Itemnum) = 0;
     virtual IWindowContainer* SelectItem(int Itemnum) = 0;
+    virtual IWindowContainer* SelectItem(IWindow* pw) = 0;
     virtual void              Refresh() = 0; // recomputes the nested components so they look good
 };
 /*************************************************************************/ /**
