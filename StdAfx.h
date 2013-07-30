@@ -28,6 +28,13 @@
 //  or project specific include files that are used frequently, but
 //	  are changed infrequently
 //
+#define MEMORY_LEAKS_CHECK
+#ifdef MEMORY_LEAKS_CHECK
+#   pragma message("build will Check for Memory Leaks!")
+#   define _CRTDBG_MAP_ALLOC
+#   include <stdlib.h>
+#   include <crtdbg.h>
+#endif
 
 #if !defined(AFX_STDAFX_H__BE878B1A_021B_466D_A019_516BDE7304C2__INCLUDED_)
 #define AFX_STDAFX_H__BE878B1A_021B_466D_A019_516BDE7304C2__INCLUDED_

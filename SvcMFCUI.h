@@ -417,7 +417,7 @@ public:
 	IWindowConsole*	 CreateWindowConsole(LPCSTR szID, LPCSTR title, IWindowContainer * parent=NULL);
 	IWindowContainer*   CreateWindowContainer(LPCSTR szID, LPCSTR title, IWindowContainer * parent=NULL);
 	IWindowFolding*	 CreateWindowFolding(LPCSTR szID, LPCSTR title, IWindowContainer * parent=NULL);
-	IWindowSplitter*	CreateWindowSplitter(LPCSTR szID, LPCSTR title, IWindowContainer * parent=NULL);
+	IWindowSplitter*	CreateWindowSplitter(LPCSTR szID, LPCSTR title, IWindowContainer * parent=NULL, bool verticalSplitter=false);
 	IWindowContainer*   CreateWindowTab(LPCSTR szID, LPCSTR title, IWindowContainer * parent=NULL);
 	IProgressBar*	   CreateWindowProgressBar(LPCSTR szID, LPCSTR title, IWindowContainer * parent=NULL);
 

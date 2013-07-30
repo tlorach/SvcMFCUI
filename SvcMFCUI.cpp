@@ -416,9 +416,14 @@ IWindowFolding*   WindowHandler::CreateWindowFolding(LPCSTR szID, LPCSTR title, 
 {
 	CREATEWIN(IWindowFolding, FoldingContainer)
 }
-IWindowSplitter*	WindowHandler::CreateWindowSplitter(LPCSTR szID, LPCSTR title, IWindowContainer * parent)
+IWindowSplitter*	WindowHandler::CreateWindowSplitter(LPCSTR szID, LPCSTR title, IWindowContainer * parent, bool verticalSplitter)
 {
-	CREATEWIN(IWindowSplitter, SplitterContainer)
+    if(verticalSplitter) {
+        CREATEWIN(IWindowSplitter, SplitterContainerH)
+    }
+    else {
+        CREATEWIN(IWindowSplitter, SplitterContainer)
+    }
 }
 IWindowContainer*   WindowHandler::CreateWindowTab(LPCSTR szID, LPCSTR title, IWindowContainer * parent)
 {
@@ -555,8 +560,10 @@ bool WindowHandler::Destroy(LPCSTR szID)
 	if(iW == m_pWindows.end())
 		return false;
     SmartPtr<IWindow> pWin = iW->second;
-	m_pWindows.erase(iW);
-	pWin->Destroy();
+    pWin->AddRef();
+	    m_pWindows.erase(iW);
+	    pWin->Destroy();
+    pWin->Release();
 	return true;
 
 }
@@ -568,9 +575,15 @@ bool WindowHandler::DestroyAll()
 	while(iW != m_pWindows.end())
 	{
 		IWindow *pW = iW->second;
-		if(pW->GetParentContainer() == NULL)
+		//if(pW->GetParentContainer() == NULL)
+        {
+            SmartPtr<IWindow> pWin = iW->second;
+            pWin->AddRef();
+		    m_pWindows.erase(iW); //using SmartPtr !
 			pW->Destroy();
-		m_pWindows.erase(iW); //using SmartPtr !
+            pWin->Release();
+        }
+        // get the first one again because the previous got removed from this array
 		iW = m_pWindows.begin();
 	}
 	m_pWindows.clear();

@@ -569,7 +569,7 @@ public:
     virtual IWindowConsole*     CreateWindowConsole(LPCSTR szID, LPCSTR title, IWindowContainer * parent=NULL) = 0;
     virtual IWindowContainer*   CreateWindowContainer(LPCSTR szID, LPCSTR title, IWindowContainer * parent=NULL) = 0;
     virtual IWindowFolding*     CreateWindowFolding(LPCSTR szID, LPCSTR title, IWindowContainer * parent=NULL) = 0;
-    virtual IWindowSplitter*    CreateWindowSplitter(LPCSTR szID, LPCSTR title, IWindowContainer * parent=NULL) = 0;
+    virtual IWindowSplitter*    CreateWindowSplitter(LPCSTR szID, LPCSTR title, IWindowContainer * parent=NULL, bool verticalSplitter=false) = 0;
     virtual IWindowContainer*   CreateWindowTab(LPCSTR szID, LPCSTR title, IWindowContainer * parent=NULL) = 0;
     virtual IProgressBar*       CreateWindowProgressBar(LPCSTR szID, LPCSTR title, IWindowContainer * parent=NULL) = 0;
 
