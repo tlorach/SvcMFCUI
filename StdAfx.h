@@ -28,7 +28,7 @@
 //  or project specific include files that are used frequently, but
 //	  are changed infrequently
 //
-#define MEMORY_LEAKS_CHECK
+//#define MEMORY_LEAKS_CHECK
 #ifdef MEMORY_LEAKS_CHECK
 #   pragma message("build will Check for Memory Leaks!")
 #   define _CRTDBG_MAP_ALLOC
