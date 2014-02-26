@@ -399,8 +399,6 @@ void CComboDlg::OnSelchangeCombo()
 #ifdef USEPLUGS
 	m_plugcombo.setValue((DWORD)m_combo.GetItemData(m_selected));
 #endif
-	//int data = m_combo.GetItemData(m_selected);
-	//SetVariableValue(&data, 1);
 	for(unsigned int ic = 0; ic < m_pclients.size(); ic++)
 	{
 		m_pclients[ic]->ComboSelectionChanged(this, m_selected);
@@ -409,4 +407,6 @@ void CComboDlg::OnSelchangeCombo()
 	{
 		g_WindowHandler.m_pclients[ic]->ComboSelectionChanged(this, m_selected);
 	}
+	int data = m_combo.GetItemData(m_selected);
+	SetVariableValue(&data, 1);
 }

@@ -77,6 +77,8 @@ CItem::CItem(LPCSTR name, int states, unsigned short tag)
 : itemplug(states == 3 ? PLUG_BYTE : PLUG_BOOL, tag, name, &m_curstate, this)
 #endif
 {
+    bmpimage.m_hObject = NULL;
+    imagew = imageh = 0;
 	m_curstate = 0;
 	m_ddsidx = 0;
 	tag = 0;
@@ -104,6 +106,7 @@ int CItem::Resize(int newx, int newy)
 {
 	BOOL b;
 	RECT rctxt;
+    RECT rc;
   int w = ratio ? (int)(ratio * newy) : newx; // ratio = 0 if we don't use any image.
 	int texty;
 	// compute extra bitmap for text
@@ -117,34 +120,36 @@ int CItem::Resize(int newx, int newy)
 	}
 	button.SetWindowPos(NULL, 0,0, w,newy, SWP_NOACTIVATE|SWP_NOMOVE|SWP_NOZORDER);
 	// recompute the picture
-	RECT rc;
-	button.GetClientRect(&rc);
-	HBITMAP oldbmp = (HBITMAP)bmpbutton.Detach();
+    if(bmpimage.m_hObject)
+    {
+	    button.GetClientRect(&rc);
+	    HBITMAP oldbmp = (HBITMAP)bmpbutton.Detach();
 
-	b = bmpbutton.CreateCompatibleBitmap(button.GetDC() ,rc.right, rc.bottom);
-	// Make the copy
-	CDC dcimage, dcbutton;
-	b = dcimage.CreateCompatibleDC(NULL);
-	b = dcbutton.CreateCompatibleDC(NULL);
-	CBitmap* oldbmpbutton = dcbutton.SelectObject(&bmpbutton);
-	CBitmap* oldbmpimage = dcimage.SelectObject(&bmpimage);
+	    b = bmpbutton.CreateCompatibleBitmap(button.GetDC() ,rc.right, rc.bottom);
+	    // Make the copy
+	    CDC dcimage, dcbutton;
+	    b = dcimage.CreateCompatibleDC(NULL);
+	    b = dcbutton.CreateCompatibleDC(NULL);
+	    CBitmap* oldbmpbutton = dcbutton.SelectObject(&bmpbutton);
+	    CBitmap* oldbmpimage = dcimage.SelectObject(&bmpimage);
 
-	w = ratio ? (int)(ratio * rc.bottom) : newx;
-	if(m_showtext)
-	{
-		dcbutton.FillRect(CRect(0,0,rc.right-1,rc.bottom-1), (CBrush*)dcimage.SelectStockObject(GRAY_BRUSH));
-		dcbutton.DrawText(title, CRect(w,(rc.bottom-texty)/2, rc.right-1,rc.bottom-1), DT_CENTER);
-	}
-	dcbutton.SetStretchBltMode(HALFTONE);
-	b = dcbutton.StretchBlt(0, 0, w, rc.bottom, &dcimage, 0, 0, imagew, imageh, SRCCOPY);
+	    w = ratio ? (int)(ratio * rc.bottom) : newx;
+	    if(m_showtext)
+	    {
+		    dcbutton.FillRect(CRect(0,0,rc.right-1,rc.bottom-1), (CBrush*)dcimage.SelectStockObject(GRAY_BRUSH));
+		    dcbutton.DrawText(title, CRect(w,(rc.bottom-texty)/2, rc.right-1,rc.bottom-1), DT_CENTER);
+	    }
+	    dcbutton.SetStretchBltMode(HALFTONE);
+	    b = dcbutton.StretchBlt(0, 0, w, rc.bottom, &dcimage, 0, 0, imagew, imageh, SRCCOPY);
 
-	dcbutton.SelectObject(oldbmpbutton);
-	dcimage.SelectObject(oldbmpimage);
-	dcbutton.DeleteDC();
-	dcimage.DeleteDC();
+	    dcbutton.SelectObject(oldbmpbutton);
+	    dcimage.SelectObject(oldbmpimage);
+	    dcbutton.DeleteDC();
+	    dcimage.DeleteDC();
 
-	button.SetBitmap(bmpbutton);
-	DeleteObject(oldbmp);
+	    button.SetBitmap(bmpbutton);
+	    DeleteObject(oldbmp);
+    }
 	button.GetWindowRect(&rc);
 	return rc.right-rc.left;
 }

@@ -294,7 +294,7 @@ void CScalarDlg::UpdateValue(UpdateFrom from)
       m_scalarval.SetSel(0,-1);
     }
     // invoke callbacks only if the changes came from user interface
-    if((from == SC_SLIDER)||(from == SC_EDIT))
+    if((from == SC_SLIDER)||(from == SC_EDIT)||(from == SC_LRBUTTONS))
     {
         for(unsigned int ic = 0; ic < m_pclients.size(); ic++)
         {
