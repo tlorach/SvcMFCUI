@@ -1,8 +1,6 @@
 /**
  ** \file Cardio.h graphics
 
-$Revision: 1.2 $
-
  **/
 
 #if !defined(AFX_VPCardio_H__6EB02697_C83D_479E_AA50_17B0C1528A06__INCLUDED_)

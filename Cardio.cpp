@@ -1,7 +1,6 @@
 /**
 \file Cardio.cpp Graphics
 
-$Revision: 1.2 $
  **/
 
 #include "stdafx.h"
