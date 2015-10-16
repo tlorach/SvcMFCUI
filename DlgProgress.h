@@ -70,7 +70,7 @@ public:
 	CStatic	m_Percent;
 	CProgressCtrl	m_Progress;
 	//}}AFX_DATA
-
+    int m_curVal;
 
 // Overrides
 	// ClassWizard generated virtual function overrides
@@ -99,22 +99,26 @@ public:
 
 	IProgressBar* SetPercent(float l)
 	{
+        if((int)l == m_curVal)
+            return this;
 		AFX_MANAGE_STATE(AfxGetStaticModuleState());
-		/*char tmpstr[10];
+		char tmpstr[10];
 		if(l < 0)
 			l = 0;
 		else if(l > 100)
-			l = 100;*/
+			l = 100;
 #ifdef USEPLUGS
 		m_plugpercent.setValue(l);
-#endif
-		/*sprintf(tmpstr, "%d%%", (int)l); // !!!!!! should be already done in Plug_IncomingDataCB()
+#else
+        m_curVal = (int)l;
+		sprintf(tmpstr, "%d%%", (int)l); // !!!!!! should be already done in Plug_IncomingDataCB()
 		m_Percent.SetWindowText(tmpstr); // TO CHECK
 		m_Progress.SetRange(0,100);
 		m_Progress.SetPos((int)l);
 		m_Percent.RedrawWindow();
 		m_Progress.RedrawWindow();
-		PeekMyself();*/
+		PeekMyself();
+#endif
 		return this;
 	}
 	IProgressBar* AddPercent(float l)

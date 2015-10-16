@@ -235,8 +235,11 @@ IControlCombo*	CComboDlg::RemoveItem( UINT index, bool bUpdateComponents )
 {
 	int i = m_combo.DeleteString(index);
 	SetupHExtent();
-	if(m_combo.GetCurSel() == index)
+	if(m_combo.GetCurSel() == index) 
+    {
+        m_selected = 0;
 		m_combo.SetCurSel(0);
+    }
 	m_combo.SetTopIndex(0);
 	return this;
 }
@@ -291,6 +294,7 @@ UINT	CComboDlg::GetNumItems()
 IControlCombo* CComboDlg::SetSelectedByIndex( UINT index )
 {
 	m_combo.SetCurSel((int)index);
+    m_selected = index;
 	return this;
 }
 IControlCombo* CComboDlg::SetSelectedByText( const char* strText )
@@ -306,6 +310,7 @@ IControlCombo* CComboDlg::SetSelectedByData( size_t data )
         if(d == data)
         {
             m_combo.SetCurSel(i);
+            m_selected = i;
             break;
         }
     }
@@ -358,6 +363,7 @@ void CComboDlg::UpdateControl()
 		if(d == data)
 		{
 			m_combo.SetCurSel(i);
+            m_selected = i;
 #ifdef USEPLUGS
 			//m_plugcombo.setValue((DWORD)d);
 #endif
