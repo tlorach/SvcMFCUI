@@ -94,6 +94,9 @@ END_MESSAGE_MAP()
 
 CMySplitterWnd::CMySplitterWnd()
 {
+	// zero fill everything after the vtbl pointer
+#define AFX_ZERO_INIT_OBJECT(base_class) \
+memset(((base_class*)this)+1, 0, sizeof(*this) - sizeof(class base_class));
 	AFX_ZERO_INIT_OBJECT(CWnd);
 
 	// default splitter box/bar sizes (includes borders)

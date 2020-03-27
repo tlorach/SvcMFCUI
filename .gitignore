@@ -2,7 +2,7 @@
 Release Multithreaded DLL
 x64
 Release64
-
+*.db
 #################
 ## Eclipse
 #################

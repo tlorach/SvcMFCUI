@@ -29,6 +29,8 @@
 
 #include <assert.h>
 
+#include <string>
+
 #pragma warning(disable : 4786)
 #include <map>
 #pragma warning(disable : 4786)
